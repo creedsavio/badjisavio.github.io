@@ -1,1 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Badji Pierre Savio — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --orange: #F97316;
+      --orange-light: #FDBA74;
+      --dark: #0F0F0F;
+      --dark2: #1A1A1A;
+      --dark3: #252525;
+      --text: #E8E8E8;
+      --muted: #888;
+      --border: rgba(255,255,255,0.07);
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--orange);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--orange);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, width 0.25s, height 0.25s, opacity 0.25s;
+      opacity: 0.5;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(249,115,22,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(249,115,22,0.06) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 80% 50%, black 30%, transparent 70%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--orange);
+      border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    h1 .accent { color: var(--orange); }
+    h1 .outline {
+      -webkit-text-stroke: 1px rgba(232,232,232,0.3);
+      color: transparent;
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 500; }
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #ea6a0a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(249,115,22,0.35);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--muted); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      animation: fadeUp 1s 0.6s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--orange), transparent);
+      animation: scrollDown 1.5s ease-in-out infinite;
+    }
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 6rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+    h2 span { color: var(--orange); }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-text p {
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .stat-card {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat-card:hover {
+      border-color: rgba(249,115,22,0.3);
+      transform: translateY(-3px);
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* SKILLS */
+    .skills-section { background: var(--dark2); border-radius: 20px; padding: 4rem; margin: 0 4rem; max-width: none; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .skill-item {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      transition: all 0.2s;
+    }
+    .skill-item:hover {
+      border-color: rgba(249,115,22,0.4);
+      background: rgba(249,115,22,0.05);
+      transform: translateX(4px);
+    }
+    .skill-icon {
+      width: 36px; height: 36px;
+      background: rgba(249,115,22,0.15);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .skill-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* EXPERIENCE */
+    .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .exp-card {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 12px 12px 0;
+      padding: 1.75rem 2rem;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(249,115,22,0.04), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .exp-card:hover::before { opacity: 1; }
+    .exp-card:hover { transform: translateX(4px); }
+    .exp-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 0.5rem; gap: 1rem;
+    }
+    .exp-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .exp-date {
+      font-size: 0.75rem;
+      color: var(--orange);
+      background: rgba(249,115,22,0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      white-space: nowrap;
+      border: 1px solid rgba(249,115,22,0.2);
+      flex-shrink: 0;
+    }
+    .exp-company {
+      font-size: 0.85rem;
+      color: var(--orange);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+    .exp-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* FORMATION */
+    .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .edu-card {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: all 0.2s;
+    }
+    .edu-card:hover {
+      border-color: rgba(249,115,22,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    .edu-year {
+      font-size: 0.75rem;
+      color: var(--orange);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .edu-degree {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+    .edu-school {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .edu-desc {
+      font-size: 0.82rem;
+      color: rgba(136,136,136,0.7);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* LANGUES */
+    .lang-grid { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .lang-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .lang-pill:hover {
+      border-color: rgba(249,115,22,0.4);
+      color: var(--orange);
+    }
+    .lang-flag { font-size: 1.2rem; }
+
+    /* CONTACT */
+    .contact-section {
+      background: linear-gradient(135deg, var(--dark2) 0%, rgba(249,115,22,0.08) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4rem;
+      text-align: center;
+      margin: 0 4rem 6rem;
+      max-width: none;
+    }
+    .contact-section h2 { margin-bottom: 1rem; }
+    .contact-section p { color: var(--muted); max-width: 500px; margin: 0 auto 2.5rem; font-weight: 300; }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 300;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 4rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-section { margin: 0 1.5rem; padding: 2.5rem 1.5rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .contact-section { margin: 0 1.5rem 4rem; padding: 2.5rem 1.5rem; }
+      .divider { margin: 0 1.5rem; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#"><span>S</span>AVIO</a>
+    <ul class="nav-links">
+      <li><a href="#about">Profil</a></li>
+      <li><a href="#skills">Compétences</a></li>
+      <li><a href="#experience">Expériences</a></li>
+      <li><a href="#formation">Formation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Disponible pour de nouvelles opportunités</div>
+      <h1>
+        Badji<br>
+        Pierre <span class="accent">Savio</span><br>
+        <span class="outline">Koffi</span>
+      </h1>
+      <p class="hero-desc">
+        <strong>Assistant Communication & Community Manager junior</strong> basé à Lomé, Togo.
+        Spécialisé dans la création de contenus digitaux et l'animation de communautés.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#contact">Me contacter</a>
+        <a class="btn btn-secondary" href="#experience">Voir mes expériences</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="reveal">
+      <div class="section-label">À propos</div>
+      <h2>Créativité &amp; <span>rigueur</span></h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          Community Manager et graphiste junior formé en <strong>sociologie</strong>,
+          je combine une compréhension fine des dynamiques humaines à une maîtrise
+          concrète des outils digitaux.
+        </p>
+        <p>
+          Grâce à mon expérience chez <strong>Dadavi Ma Nounou</strong>, j'ai appris
+          à créer des contenus qui engagent, fidélisent et font grandir une communauté
+          en ligne au quotidien.
+        </p>
+        <p>
+          Bilingue Français / Anglais, je suis capable de travailler dans des
+          environnements <strong>multiculturels</strong> et de coordonner des équipes
+          avec rigueur et créativité.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Années d'expérience en gestion de communauté</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Expériences professionnelles concrètes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Langues parlées</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">Bac+3</div>
+          <div class="stat-label">Licence Sociologie — Université de Lomé</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <div style="padding: 6rem 0;">
+    <div class="skills-section reveal">
+      <div class="section-label" id="skills">Compétences</div>
+      <h2>Ce que je <span>maîtrise</span></h2>
+      <div class="skills-grid">
+        <div class="skill-item"><div class="skill-icon">📱</div><div class="skill-name">Gestion des réseaux sociaux</div></div>
+        <div class="skill-item"><div class="skill-icon">🎨</div><div class="skill-name">Canva (maîtrise avancée)</div></div>
+        <div class="skill-item"><div class="skill-icon">🖼️</div><div class="skill-name">Photoshop (notions)</div></div>
+        <div class="skill-item"><div class="skill-icon">🔍</div><div class="skill-name">Enquête & travail de terrain</div></div>
+        <div class="skill-item"><div class="skill-icon">🤝</div><div class="skill-name">Travail d'équipe & collaboration</div></div>
+        <div class="skill-item"><div class="skill-icon">🎯</div><div class="skill-name">Leadership & coordination</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="reveal">
+      <div class="section-label">Parcours</div>
+      <h2>Mes <span>expériences</span></h2>
+    </div>
+    <div class="exp-list">
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-title">Community Manager & Graphiste</div>
+          <div class="exp-date">2021 – 2025</div>
+        </div>
+        <div class="exp-company">Dadavi Ma Nounou</div>
+        <div class="exp-desc">
+          Responsable de la création et de la diffusion de contenus digitaux liés à la petite enfance,
+          animation des réseaux sociaux, interaction quotidienne avec la communauté,
+          veille numérique et contribution à la réflexion stratégique de l'équipe.
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-title">Enquêteur terrain — Projet Alafia</div>
+          <div class="exp-date">Mai 2025</div>
+        </div>
+        <div class="exp-company">Association Terres en Mêlées (Togo)</div>
+        <div class="exp-desc">
+          Participation à une enquête sociale et éducative incluant la sensibilisation,
+          l'interaction directe avec les jeunes, la collecte de données terrain
+          et la contribution à la rédaction de bilans.
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-title">Coordinateur Communication (Bénévolat)</div>
+          <div class="exp-date">Oct. 2025</div>
+        </div>
+        <div class="exp-company">Heal by hair</div>
+        <div class="exp-desc">
+          Coordination d'une équipe de bénévoles en communication, transmission des consignes,
+          répartition des tâches et supervision des actions pour assurer la cohérence
+          et le bon déroulement des activités.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FORMATION -->
+  <section id="formation">
+    <div class="reveal">
+      <div class="section-label">Formation</div>
+      <h2>Mon <span>parcours académique</span></h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-year">2020 – 2025</div>
+        <div class="edu-degree">Licence en Sociologie</div>
+        <div class="edu-school">Université de Lomé</div>
+        <div class="edu-desc">Analyse des comportements sociaux, méthodologie d'enquête, communication sociale et dynamiques de groupe.</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-year">2024 – 2025</div>
+        <div class="edu-degree">English for Soft Skills</div>
+        <div class="edu-school">Talent & Skills — Certification</div>
+        <div class="edu-desc">Communication professionnelle en anglais, travail en équipe et compétences relationnelles en contexte multiculturel.</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-year">2019 – 2020</div>
+        <div class="edu-degree">Baccalauréat — Série A4</div>
+        <div class="edu-school">Groupe Scolaire Amitié-Concorde, Lomé</div>
+        <div class="edu-desc">Formation générale littéraire ayant renforcé les capacités d'analyse, d'expression écrite et de communication.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- LANGUES -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">Langues</div>
+      <h2>Mes <span>langues</span></h2>
+    </div>
+    <div class="lang-grid reveal">
+      <div class="lang-pill"><span class="lang-flag">🇹🇬</span> Éwé</div>
+      <div class="lang-pill"><span class="lang-flag">🇫🇷</span> Français</div>
+      <div class="lang-pill"><span class="lang-flag">🇬🇧</span> Anglais</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-section reveal" id="contact">
+    <div class="section-label">Contact</div>
+    <h2>Travaillons <span>ensemble</span></h2>
+    <p>Je suis ouvert à de nouvelles opportunités à Lomé et à distance. N'hésitez pas à me contacter !</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:Creedsavio@gmail.com">
+        ✉️ Creedsavio@gmail.com
+      </a>
+      <a class="contact-link" href="tel:+22899754574">
+        📞 +228 99 75 45 74
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Badji Pierre Savio Koffi — Lomé, Togo</p>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.width = '16px'; cursor.style.height = '16px'; ring.style.width = '50px'; ring.style.height = '50px'; ring.style.opacity = '0.8'; });
+      el.addEventListener('mouseleave', () => { cursor.style.width = '10px'; cursor.style.height = '10px'; ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '0.5'; });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
